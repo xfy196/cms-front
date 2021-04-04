@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-export default class profileContainer extends Component {
-    constructor(props){
-        super(props)
-        this.setState({})
-    }
+
+/**
+ * 用户添加
+ */
+export default class userAdd extends Component {
     render() {
         return (
             <div>

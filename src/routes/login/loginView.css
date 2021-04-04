@@ -1,0 +1,23 @@
+.loginContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 70px);
+}
+.loginBox{
+    padding: 20px;
+    width: 40%;
+    background: #e7e7e7;
+    border-radius: 5px;
+    border: 1px solid #999;
+}
+.title {
+    text-align: center;
+}
+.loginBtns{
+    display: flex;
+    justify-content: space-between;
+}
+.loginContainer label:before{
+    display: none !important;
+}

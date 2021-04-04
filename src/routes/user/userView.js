@@ -1,11 +1,48 @@
-import React, { Component } from 'react'
-import {Card, Table} from "antd"
+import React, { Component, lazy } from "react";
+import { Layout, Menu } from "antd";
+import { Route, Link, Redirect } from "dva/router";
+import { SuspenseComponent } from "../../utils/lazyRoute";
+const UserList = lazy(() => import("./userList"));
+const UserAdd = lazy(() => import("./userAdd"));
+const { Sider, Content } = Layout;
 export default class userView extends Component {
-    render() {
-        return (
-            <Card title="用户管理">
-                <Table></Table>
-            </Card>
-        )
-    }
+  constructor(props) {
+    super(props);
+    this.state = {}
+  }
+  render() {
+    return (
+      <Layout>
+        <Sider>
+          <Menu
+            theme="light"
+            mode="vertical"
+            selectedKeys={[this.props.selectedKey]}
+          >
+            <Menu.Item key="/user/list">
+              <Link to="/user/list">用户列表</Link>
+            </Menu.Item>
+            <Menu.Item key="/user/add">
+              <Link to="/user/add">添加用户</Link>
+            </Menu.Item>
+          </Menu>
+        </Sider>
+        <Content>
+          <Route
+            path="/user/list"
+            component={SuspenseComponent(UserList)}
+          ></Route>
+          <Route
+            path="/user/add"
+            component={SuspenseComponent(UserAdd)}
+          ></Route>
+          <Route
+            path="/user"
+            exact
+            render={() => <Redirect to="/user/list" />}
+          ></Route>
+        </Content>
+      </Layout>
+    );
+  }
 }

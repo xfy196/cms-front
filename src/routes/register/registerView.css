@@ -1,0 +1,16 @@
+.registerContainer{
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.register{
+    padding: 20px;
+    width: 60%;
+    border-radius: 5px;
+    background: #e7e7e7;
+    border: 1px solid #999;
+}
+.title{
+    text-align: center;
+}
