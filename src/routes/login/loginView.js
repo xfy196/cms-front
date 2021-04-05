@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Form, Input, Button, Checkbox } from "antd";
+import { Form, Input, Button, Checkbox, Row, Col, Image } from "antd";
 import styles from "./loginView.css";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 export default class loginView extends Component {
@@ -42,6 +42,27 @@ export default class loginView extends Component {
           >
             <Input prefix={<LockOutlined />} />
           </Form.Item>
+          <Form.Item label="验证码" extra="验证是否为机器操作">
+            <Row gutter={4}>
+              <Col span={16}>
+                <Form.Item
+                  name="captcha"
+                  noStyle
+                  rules={[
+                    {
+                      required: true,
+                      message: "请输入验证码",
+                    },
+                  ]}
+                >
+                  <Input placeholder="请输入验证码" />
+                </Form.Item>
+              </Col>
+              <Col span={8}>
+                <Image height={32} alt="captcha" onClick={this.props.handleChangeCaptcha} src={this.props.captchaUrl} preview={false}/>
+              </Col>
+            </Row>
+          </Form.Item>
           <Form.Item {...this.props.tailLayout}>
             <Form.Item
               style={{ float: "left" }}
@@ -65,6 +86,9 @@ export default class loginView extends Component {
             <Form.Item style={{ float: "right" }}>
               <Button type="link">已有账号现在登录</Button>
             </Form.Item>
+          </Form.Item>
+          <Form.Item {...this.props.tailFormItemLayout}>
+            没有账号<a href="/register">立即注册</a>
           </Form.Item>
         </Form>
       </div>

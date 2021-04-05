@@ -1,0 +1,23 @@
+import request from "@/utils/request"
+/**
+ * 注册
+ * @param {*} payload 
+ * @returns 
+ */
+export function signup(payload){
+    return request("/api/signUp", payload)
+}
+/**
+ * 登录
+ * @param {*} payload 
+ * @returns 
+ */
+export function signin(payload){
+    return request("/api/signIn", payload)
+}
+/**
+ * 验证验证码
+ */
+export function captcha(payload){
+    return request("/api/checkCaptcha", payload)
+}

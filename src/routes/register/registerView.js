@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styles from "./registerView.css"
+import styles from "./registerView.css";
 import {
   Form,
   Input,
@@ -9,11 +9,13 @@ import {
   Button,
   Row,
   Col,
+  Radio,
+  Image
 } from "antd";
 export default class registerView extends Component {
   constructor(props) {
     super(props);
-    this.state = {}
+    this.state = {};
   }
   render() {
     return (
@@ -23,12 +25,12 @@ export default class registerView extends Component {
           className={styles.register}
           onFinish={this.props.onFinish}
           initialValues={{
-            residence: ["zhejiang", "hangzhou", "xihu"],
             prefix: "86",
+            gender:"男"
           }}
           scrollToFirstError
         >
-            <h3 className={styles.title}>欢迎注册</h3>
+          <h3 className={styles.title}>欢迎注册</h3>
           <Form.Item
             name="email"
             label="邮箱"
@@ -76,11 +78,7 @@ export default class registerView extends Component {
                     return Promise.resolve();
                   }
 
-                  return Promise.reject(
-                    new Error(
-                      "两次密码不一致"
-                    )
-                  );
+                  return Promise.reject(new Error("两次密码不一致"));
                 },
               }),
             ]}
@@ -89,13 +87,12 @@ export default class registerView extends Component {
           </Form.Item>
 
           <Form.Item
-            name="nickname"
-            label="昵称"
-            tooltip="What do you want others to call you?"
+            name="username"
+            label="用户名"
             rules={[
               {
                 required: true,
-                message: "昵称不能为空",
+                message: "用户名不能为空",
                 whitespace: true,
               },
             ]}
@@ -104,7 +101,7 @@ export default class registerView extends Component {
           </Form.Item>
 
           <Form.Item
-            name="residence"
+            name="address"
             label="住址"
             rules={[
               {
@@ -128,14 +125,28 @@ export default class registerView extends Component {
             ]}
           >
             <Input
-            placeholder="请输入手机号码"
+              placeholder="请输入手机号码"
               addonBefore={this.props.prefixSelector()}
               style={{
                 width: "100%",
               }}
             />
           </Form.Item>
-
+          <Form.Item
+            name="gender"
+            label="性别"
+            rules={[
+              {
+                required: true,
+                message: "请输入性别",
+              },
+            ]}
+          >
+            <Radio.Group>
+              <Radio value={"男"}>男</Radio>
+              <Radio value={"女"}>女</Radio>
+            </Radio.Group>
+          </Form.Item>
           <Form.Item
             name="website"
             label="个人主页"
@@ -149,18 +160,15 @@ export default class registerView extends Component {
             <AutoComplete
               options={this.props.websiteOptions()}
               onChange={this.props.onWebsiteChange}
-              placeholder="website"
+              placeholder="请输入个人网站"
             >
-              <Input placeholder="请输入个人网站" />
+              <Input />
             </AutoComplete>
           </Form.Item>
 
-          <Form.Item
-            label="Captcha"
-            extra="We must make sure that your are a human."
-          >
-            <Row gutter={8}>
-              <Col span={12}>
+          <Form.Item label="验证码" extra="验证是否为机器操作">
+            <Row gutter={4}>
+              <Col span={16}>
                 <Form.Item
                   name="captcha"
                   noStyle
@@ -174,8 +182,8 @@ export default class registerView extends Component {
                   <Input placeholder="请输入验证码" />
                 </Form.Item>
               </Col>
-              <Col span={12}>
-                <Button>获取验证码</Button>
+              <Col span={8}>
+                <Image height={32} alt="captcha" onClick={this.props.handleChangeCaptcha} src={this.props.captchaUrl} preview={false}/>
               </Col>
             </Row>
           </Form.Item>
@@ -188,19 +196,22 @@ export default class registerView extends Component {
                 validator: (_, value) =>
                   value
                     ? Promise.resolve()
-                    : Promise.reject(new Error("Should accept agreement")),
+                    : Promise.reject(new Error("请确认阅读过风险协议")),
               },
             ]}
             {...this.props.tailFormItemLayout}
           >
             <Checkbox>
-              我已阅读 <a href="">同意</a>
+              我已阅读 <a href="">风险协议</a>
             </Checkbox>
           </Form.Item>
           <Form.Item {...this.props.tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
               注册
             </Button>
+          </Form.Item>
+          <Form.Item {...this.props.tailFormItemLayout}>
+            已有账号<a href="/login">立即登录</a>
           </Form.Item>
         </Form>
       </div>

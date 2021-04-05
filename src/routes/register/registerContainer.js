@@ -1,45 +1,19 @@
 import React, { Component } from "react";
 import RegisterView from "./registerView";
 import { Form, Select } from "antd";
+import { regionData} from 'element-china-area-data'
+import {connect} from "dva"
 const { Option } = Select;
+
+@connect(
+  ({loginmodel}) => loginmodel
+)
 export default class registerContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      residences: [
-        {
-          value: "zhejiang",
-          label: "Zhejiang",
-          children: [
-            {
-              value: "hangzhou",
-              label: "Hangzhou",
-              children: [
-                {
-                  value: "xihu",
-                  label: "West Lake",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          value: "jiangsu",
-          label: "Jiangsu",
-          children: [
-            {
-              value: "nanjing",
-              label: "Nanjing",
-              children: [
-                {
-                  value: "zhonghuamen",
-                  label: "Zhong Hua Men",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      captchaUrl: "http://localhost:7001/api/getCaptcha",
+      residences: regionData,
       formItemLayout: {
         labelCol: {
           xs: {
@@ -73,8 +47,22 @@ export default class registerContainer extends Component {
       autoCompleteResult: [],
     };
   }
-  onFinish(values) {
-    console.log("Received values of form: ", values);
+  async onFinish(values) {
+    delete values.agreement
+    delete values.repassword
+    delete values.prefix
+    await this.props.dispatch({
+      type: "loginmodel/signup",
+      payload: {
+        method: "POST",
+        data: {
+          ...values
+        }
+      }
+    })
+    this.props.history.push({
+      pathname: "/login"
+    })
   }
   websiteOptions(){
       return this.state.autoCompleteResult.map((website) => ({
@@ -91,7 +79,6 @@ export default class registerContainer extends Component {
           }}
         >
           <Option value="86">+86</Option>
-          <Option value="87">+87</Option>
         </Select>
       </Form.Item>
     );
@@ -101,11 +88,17 @@ export default class registerContainer extends Component {
       this.setState({ autoCompleteResult: [] });
     } else {
       this.setState({
-        autoCompleteResult: [".com", ".org", ".net"].map(
+        autoCompleteResult: [".com", ".org", ".net", ".top"].map(
           (domain) => `${value}${domain}`
         ),
       });
     }
+  }
+  /**
+   * 改变captcha的改变
+   */
+  handleChangeCaptcha(e){
+    e.target.src = this.state.captchaUrl + `?_time=` + Date.now()
   }
   render() {
     return (
@@ -116,7 +109,9 @@ export default class registerContainer extends Component {
         onWebsiteChange={this.onWebsiteChange.bind(this)}
         prefixSelector={this.prefixSelector.bind(this)}
         websiteOptions={this.websiteOptions.bind(this)}
+        handleChangeCaptcha={this.handleChangeCaptcha.bind(this)}
       ></RegisterView>
     );
   }
 }
+// export default connect((state) => state)(registerContainer)

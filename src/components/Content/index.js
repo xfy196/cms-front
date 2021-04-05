@@ -10,13 +10,14 @@ const { Content } = Layout;
 export default class index extends Component {
     constructor(props){
         super(props)
+        console.log("dad")
         if(this.props.location.pathname === "/"){
             this.props.history.push("/home")
         }
     }
   render() {
     return (
-      <Content>
+      <Content style={{marginTop: "24px"}}>
         <div className={styles.content}>
           <Route path="/home" component={SuspenseComponent(HomeCom)}></Route>
           <Route path="/user" component={SuspenseComponent(UserCom)}></Route>
