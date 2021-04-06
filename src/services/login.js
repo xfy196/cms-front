@@ -21,3 +21,10 @@ export function signin(payload){
 export function captcha(payload){
     return request("/api/checkCaptcha", payload)
 }
+/**
+ * 获取用户信息
+ * @param {*} payload 
+ */
+export function getUserInfo(payload){
+    return request("/api/getUserInfo", payload)
+}

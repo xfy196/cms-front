@@ -12,12 +12,12 @@ export default class userView extends Component {
   }
   render() {
     return (
-      <Layout>
-        <Sider>
+      <Layout style={{height:"100%"}}>
+        <Sider theme="light">
           <Menu
             theme="light"
             mode="vertical"
-            selectedKeys={[this.props.selectedKey]}
+            selectedKeys={[this.props.location.pathname]}
           >
             <Menu.Item key="/user/list">
               <Link to="/user/list">用户列表</Link>
