@@ -59,7 +59,7 @@ export default class loginView extends Component {
                 </Form.Item>
               </Col>
               <Col span={8}>
-                <Image height={32} alt="captcha" onClick={this.props.handleChangeCaptcha} src={this.props.captchaUrl} preview={false}/>
+                <Image id="captchaImg" height={32} alt="captcha" onClick={this.props.handleChangeCaptcha} src={this.props.captchaUrl} preview={false}/>
               </Col>
             </Row>
           </Form.Item>

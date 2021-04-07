@@ -29,7 +29,7 @@ export default {
       let result = yield call(service.signin, payload);
       if (result.data.status == 200) {
         message.success({
-          duration: 0.5,
+          duration: 1,
           content: result.data.message,
         });
       } else {
@@ -56,6 +56,7 @@ export default {
           },
         });
       } else {
+        document.getElementById("captchaImg").getElementsByTagName("img")[0].src = `http://localhost:7001/api/getCaptcha?_time=${Date.now()}`
         message.error({
           content: result.data.message,
         });
