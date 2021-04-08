@@ -28,3 +28,11 @@ export function captcha(payload){
 export function getUserInfo(payload){
     return request("/api/getUserInfo", payload)
 }
+
+/**
+ * 获取数据
+ * @param {*} payload 
+ */
+export function getMenus(payload){
+    return request("/api/getResource", payload)
+}

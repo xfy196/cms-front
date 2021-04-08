@@ -8,8 +8,12 @@ export default {
     isLogin: false,
     token: null,
     userInfo: {},
+    menus: []
   },
-
+  subscriptions: {
+    setup({dispatch, history}){
+    }
+  },
   // 加入了react-saga
   effects: {
     *signup({ payload }, { call, put }) {
@@ -32,6 +36,7 @@ export default {
           duration: 1,
           content: result.data.message,
         });
+     
       } else {
         message.error({
           content: result.data.message,
@@ -41,6 +46,9 @@ export default {
       localStorage.setItem("cmsToken", result.data.data);
       yield put({ type: "save", payload: { token: result.data.data } });
       yield put(push("/"));
+      yield put({type: "getUserInfo", payload: {
+        method: "POST"
+      }})
     },
     *captcha({ payload }, { call, put }) {
       let result = yield call(service.captcha, payload);
@@ -67,9 +75,25 @@ export default {
       let result = yield call(service.getUserInfo, payload);
       if (result.data.status == 200) {
         yield put({type: "save", payload: {userInfo: result.data.data}})
+        yield put({type: "getMenus", payload: {
+          params: {
+          id: result.data.data.id
+          }
+        }})
       } else {
       }
     },
+    /**
+     * 获取菜单
+     * @param {*} param0 
+     * @param {*} param1 
+     */
+    *getMenus({payload}, {call, put}){
+      let result = yield call(service.getMenus, payload)
+      if(result.data.status == 200){
+        yield put({type: "save", payload: {menus: result.data.data}})
+      }
+    }
   },
 
   reducers: {

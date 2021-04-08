@@ -15,6 +15,7 @@ const errorHandle = (status, other) => {
     // 401: 未登录状态，跳转登录页
     case 401:
       push("/login");
+      console.log(other)
       message.error({
         content: other,
       });
@@ -63,7 +64,7 @@ instance.interceptors.response.use(
     const { response } = error;
     if (response) {
       // 请求已发出，但是不在2xx的范围
-      errorHandle(response.status, response.data.message);
+      errorHandle(response.status, response.data.data.message);
       return Promise.reject(response);
     } else {
       // 处理断网的情况
