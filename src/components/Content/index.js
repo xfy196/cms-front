@@ -4,13 +4,11 @@ import { Route } from "dva/router";
 import { connect } from "dva";
 import styles from "./index.less";
 import { Link } from "dva/router";
-import { UserOutlined } from "@ant-design/icons";
 import { SuspenseComponent } from "../../utils/lazyRoute";
 const ProfileCom = lazy(() => import("../../routes/profile/profileContainer"));
 const HomeCom = lazy(() => import("../../routes/home/homeContainer"));
 const UserCom = lazy(() => import("../../routes/user/userView"));
 const { Content, Sider } = Layout;
-const { SubMenu } = Menu;
 @connect(({ loginmodel }) => loginmodel)
 export default class index extends Component {
   constructor(props) {
@@ -29,7 +27,6 @@ export default class index extends Component {
     });
   }
   renderMenus(node) {
-
       return node.map((item) => {
         if (item.children.length > 0) {
           return (

@@ -14,20 +14,20 @@ const errorHandle = (status, other) => {
   switch (status) {
     // 401: 未登录状态，跳转登录页
     case 401:
-      push("/login");
-      console.log(other)
       message.error({
         content: other,
       });
+      push("/login");
+      console.log(other)
       break;
     // 403 token过期
     // 清除token并跳转登录页
     case 403:
-      localStorage.removeItem("cmsToken");
-      push("/login");
       message.error({
         content: other,
       });
+      localStorage.removeItem("cmsToken");
+      push("/login");
       break;
     // 404请求不存在
     case 404:
