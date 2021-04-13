@@ -17,8 +17,8 @@ const errorHandle = (status, other) => {
       message.error({
         content: other,
       });
-      push("/login");
-      console.log(other)
+      localStorage.removeItem("cmsToken")
+      window.location.href = "/login"
       break;
     // 403 token过期
     // 清除token并跳转登录页
@@ -64,8 +64,8 @@ instance.interceptors.response.use(
     const { response } = error;
     if (response) {
       // 请求已发出，但是不在2xx的范围
-      errorHandle(response.status, response.data.data.message);
-      return Promise.reject(response);
+      errorHandle(response.status, response.data.message);
+      // return Promise.reject(response);
     } else {
       // 处理断网的情况
       // eg:请求超时或断网时，更新state的network状态
